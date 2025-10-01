@@ -1,2 +1,21 @@
-5
-4 4 4 3 3
+9
+1 Milk
+1
+100 Milk
+2 1000 Milk
+1 Milk
+1
+200 Milk
+2 20 Banana_syrup
+2 30 Bubble_gum_syrup
+2 100 Ice_cream
+2 1 Milk
+1 Banana_gum
+4
+20 Banana_syrup
+20 Bubble_gum_syrup
+80 Ice_cream
+120 Milk
+1 Just_a_syrup
+1
+1 Banana_syrup
