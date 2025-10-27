@@ -8,22 +8,23 @@ using namespace std;
 using ll = long long;
 
 vector<vector<int>> g;
-vector<int> used;
-set<int> cur_used;
+vector<bool> used;
+vector<bool> rec;
 bool ans = false;
 
 void dfs(int v) {
     if (used[v]) {
-        if (cur_used.find(v) != cur_used.end()) {
+        if (rec[v]) {
             ans = true;
         }
         return;
     }
     used[v] = true;
-    cur_used.insert(v);
+    rec[v] = true;
     for (int u : g[v]) {
         dfs(u);
     }
+    rec[v] = false;
 }
 
 int main() {
@@ -31,6 +32,7 @@ int main() {
     cin >> n >> m;
     g.resize(n);
     used.resize(n);
+    rec.resize(n);
     while (m--) {
         int u, v;
         cin >> u >> v;
@@ -43,7 +45,6 @@ int main() {
         if (used[v]) {
             continue;
         }
-        cur_used.clear();
         dfs(v);
         ++c;
     }
