@@ -10,12 +10,13 @@ using ll = long long;
 vector<vector<int>> g;
 vector<bool> used;
 vector<bool> rec;
-bool ans = false;
+bool cycle = false;
+vector<int> topsort;
 
 void dfs(int v) {
     if (used[v]) {
         if (rec[v]) {
-            ans = true;
+            cycle = true;
         }
         return;
     }
@@ -25,6 +26,7 @@ void dfs(int v) {
         dfs(u);
     }
     rec[v] = false;
+    topsort.push_back(v);
 }
 
 int main() {
@@ -48,5 +50,12 @@ int main() {
         dfs(v);
         ++c;
     }
-    cout << ans;
+    reverse(topsort.begin(), topsort.end());
+    if (cycle) {
+        cout << -1;
+    } else {
+        for (int v : topsort) {
+            cout << (v + 1) << ' ';
+        }
+    }
 }
