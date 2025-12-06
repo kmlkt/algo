@@ -1,0 +1,23 @@
+[
+  {
+    "label": "Debug",
+    "build": {
+      "command": "g++ -g $ZED_RELATIVE_FILE -o $ZED_WORKTREE_ROOT/main",
+      "args": []
+    },
+    "program": "$ZED_WORKTREE_ROOT/main",
+    "request": "launch",
+    "adapter": "CodeLLDB",
+    "stdio": "$ZED_WORKTREE_ROOT/input.txt"
+  },
+  {
+    "label": "Handmade debug",
+    "build": {
+      "command": "g++ -g $ZED_RELATIVE_FILE -o $ZED_WORKTREE_ROOT/main",
+      "args": []
+    },
+    "program": "$ZED_WORKTREE_ROOT/main",
+    "request": "launch",
+    "adapter": "CodeLLDB"
+  }
+]

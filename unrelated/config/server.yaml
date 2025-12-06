@@ -1,0 +1,40 @@
+services:
+  abacaba:
+    source: github.com/kmlkt/abacaba
+    build: go build . -o main
+    var:
+      url: generate(url)
+    run: ./main
+    env:
+      logging-mode: silent
+      db-host: (database.host)
+      db-port: (database.port)
+      db-user: (database.user.abacaba.login)
+      db-password: (database.user.abacaba.password)
+      host: (.url.host)
+      port: (.url.port)
+  database:
+    source: github.com/kmlkt/srvr-postgres
+    users:
+      admin:
+        password: (env.dbpassword)
+        rights: all
+      abacaba:
+        password: (auto)
+        rights:
+          - tables: abacaba.all
+            actions: insert update delete select
+  landing:
+    source: github.com/kmlkt/landing
+  router:
+    source: github.com/kmlkt/srvr-caddy
+    config: |
+      abacaba.com {
+        reverse_proxy (abacaba.url)
+      }
+      landing.com {
+        root * (landing.directory)/www
+        file_server
+      }
+
+#abacabaaaa
