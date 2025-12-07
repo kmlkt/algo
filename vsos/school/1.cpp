@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 int main() {
     int a, b;
@@ -8,5 +9,5 @@ int main() {
     int r = a / 4;
     int n = b + (r + 1) * 2;
     int ans = n / 6;
-    cout << ans;
+    cout << ans + 10;
 }
