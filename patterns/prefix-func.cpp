@@ -1,32 +1,54 @@
-#include <algorithm>
-#include <cmath>
 #include <iostream>
-#include <ostream>
 #include <string>
-#include <utility>
 #include <vector>
-using namespace std;
 
-vector<int> prefix(string a) {
-    vector<int> ans(a.size());
-    for (int i = 1; i < ans.size(); ++i) {
-        int compared = i - 1;
-        while (true) {
-            if (a[i] == a[ans[compared]]) {
-                ans[i] = max(0, ans[compared]) + 1;
-                break;
+using namespace std;
+using ll = long long;
+
+int n;
+string s;
+vector<int> pref;
+
+// O(n^3)
+void naive() {
+    for (int i = 0; i < n; ++i) {
+        for (int len = 1; len <= i; ++len) {
+            bool eq = true;
+            for (int j = 0; j < len; ++j) {
+                if (s[j] != s[i - len + 1 + j]) {
+                    eq = false;
+                    break;
+                }
             }
-            if (compared == 0) {
-                break;
+            if (eq) {
+                pref[i] = len;
             }
-            compared = ans[compared] - 1;
         }
     }
-    return ans;
+}
+
+// O(n)
+void optimal() {
+    for (int i = 1; i < n; ++i) {
+        int &pi = pref[i] = min(pref[i - 1] + 1, i);
+        while (pi > 0 && s[pi - 1] != s[i]) {
+            --pi;
+        }
+    }
 }
 
 int main() {
-    for (int ni : prefix("abacaba")) {
-        cout << ni << ' ';
+    getline(cin, s);
+    n = s.size();
+    pref.resize(n);
+    optimal();
+    for (int pi : pref) {
+        cout << pi << ' ';
+    }
+    fill(pref.begin(), pref.end(), 0);
+    cout << '\n';
+    naive();
+    for (int pi : pref) {
+        cout << pi << ' ';
     }
 }

@@ -1,0 +1,38 @@
+
+int find(int *a, int n, int x) {
+    if (n == 1) {
+        if (a[0] == x) {
+            return x;
+        } else if (a[0] < x) {
+            return INT32_MAX;
+        } else {
+            return INT32_MIN;
+        }
+    }
+    int m = n / 2;
+    if (x < a[m]) {
+        return find(a, m, x);
+    } else {
+        return find(a + m, n - m, x);
+    }
+}
+
+int same(int *a, int n, int *b, int l) {
+    if (n == 1) {
+        int f = find(b, l, a[0]);
+        if (a[0] == f) {
+            return f;
+        } else if (a[0] < f) {
+            return INT32_MAX;
+        } else {
+            return INT32_MIN;
+        }
+    }
+    int m = n / 2;
+    int f = find(b, l, a[m]);
+    if (f < a[m]) {
+        return find(a, m, f);
+    } else {
+        return find(a + m, n - m, f);
+    }
+}
