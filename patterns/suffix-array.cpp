@@ -46,7 +46,7 @@ vector<suffix> buildSuffixArray(string input) {
 }
 
 int main() {
-    string input = "verylongniggername";
+    string input = "verylongname";
     auto sa = buildSuffixArray(input);
     for (suffix s : sa) {
         cout << s.index << ' ';
@@ -56,8 +56,3 @@ int main() {
         cout << input.substr(s.index) << endl;
     }
 }
-
-template <class T>
-struct R {
-    T e;
-};
