@@ -1,7 +1,6 @@
 #include <algorithm>
-#include <cstdint>
+#include <deque>
 #include <iostream>
-#include <set>
 #include <utility>
 #include <vector>
 
@@ -10,17 +9,36 @@ using ll = long long;
 
 int n, m;
 vector<int> a;
-vector<int> c;
+vector<int> cnt;
 
 int main() {
     cin >> n >> m;
     a.resize(n);
-    c.resize(m + 1);
+    cnt.resize(m);
     for (int &ai : a) {
         cin >> ai;
-        ++c[ai];
+        --ai;
+        ++cnt[ai];
     }
-    for(int i = 1; i <= m; ++i) {
-        
+    vector<vector<vector<int>>> dp(2, vector<vector<int>>(n + 1, vector<int>(n + 1)));
+    dp[0][0][cnt[0]] = 1;
+    for (int i = 0; i < m; ++i) {
+        for (int left_cur = 0; left_cur <= n; ++left_cur) {
+            for (int left_prev = 0; left_prev <= n; ++left_prev) {
+                dp[1][left_cur][left_prev] = 0;
+            }
+        }
+        for (int left_cur = 0; left_cur <= n; ++left_cur) {
+            for (int left_prev = 0; left_prev <= n; ++left_prev) {
+                if (left_cur < (m - 3)) {
+                    dp[0][left_prev][left_cur] += dp[0][left_prev][left_cur + 3];
+                }
+                if (i + 1 < m && left_cur >= left_prev && cnt[i + 1] >= left_prev) {
+                    dp[1][left_cur - left_prev][cnt[i + 1] - left_prev] += dp[0][left_prev][left_cur];
+                }
+            }
+        }
+        swap(dp[0], dp[1]);
     }
+    cout << dp[1][0][0];
 }

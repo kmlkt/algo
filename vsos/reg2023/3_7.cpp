@@ -90,6 +90,7 @@ int find_sum(int *a, int n, ll x) {
     return maskl + (maskr << (half1));
 }
 
+// O(2^n * m * 2^(m/2) * m) = O(2^(n + m/2) * m^2)
 pair<int, int> find_sum(vector<vector<int>> &a, ll x) {
     int n = a.size();
     int m = a[0].size(); /*
