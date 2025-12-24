@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -78,7 +79,9 @@ int main() {
     string s;
     cin >> s;
     vector<seq> a;
+    a.push_back({1, 's', 0});
     seq cur;
+    cur.o = 1;
     for (char c : s) {
         if ('0' <= c && c <= '9') {
             cur.n *= 10;
@@ -94,4 +97,17 @@ int main() {
             cur.c = ' ';
         }
     }
+    cur.n = 1;
+    cur.c = 't';
+    a.push_back(cur);
+    int n = a.size() - 2;
+    answer add{-1, ' ', -1};
+    answer rem{-1, ' ', -1};
+    for (int i = 1; i <= n; ++i) {
+        seq ai = a[i];
+        add = max(add, ai.optAdd(a[i - 1]));
+        rem = max(rem, ai.rem(a[i - 1], a[i + 1]));
+    }
+    cout << "2 " << rem.pos << '\n';
+    cout << "1 " << add.pos - 1 << ' ' << add.c << '\n';
 }
