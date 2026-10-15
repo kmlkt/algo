@@ -1,11 +1,17 @@
 #include <algorithm>
+#include <array>
 #include <cstdlib>
 #include <iostream>
 #include <iterator>
+#include <random>
 #include <vector>
 
 using namespace std;
 using ll = long long;
+
+random_device dev;
+mt19937 mt(dev());
+uniform_int_distribution<int> distrib;
 
 struct Node {
     Node *p = 0;
@@ -14,9 +20,11 @@ struct Node {
     int x;
     int size;
     ll sum;
-    int y = rand();
+    int y = distrib(mt);
 
     Node(int x) : x(x), size(1), sum(x) {}
+
+    Node() {}
 
     void setl(Node *ln) {
         if (l) {
@@ -105,11 +113,14 @@ pair<Node *, Node *> split_size(Node *n, int size) {
 }
 
 Node *root;
-vector<Node> world;
+array<Node, 1'001'000> world;
+int world_size = 0;
 
 void insert(int x) {
+    world[world_size] = Node(x);
     auto [l, r] = split(root, x);
-    root = merge(merge(l, new Node(x)), r);
+    root = merge(merge(l, &world[world_size]), r);
+    ++world_size;
 }
 
 void print(Node *n, int padding = 0) {
@@ -125,6 +136,7 @@ void print(Node *n, int padding = 0) {
 }
 
 void solve() {
+    world_size = 0;
     int n, m;
     cin >> n >> m;
 
