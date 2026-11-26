@@ -72,6 +72,20 @@ struct rat {
     friend istream &operator>>(istream &is, rat &a) { ll p, q; is >> p >> q; a = rat(p, q); return is;}
 };
 
+int gcd_ext(int a, int b, int &x, int &y) {
+    if (a == 0) {
+        x = 0;
+        y = 1;
+        return b;
+    }
+    int x1, y1;
+    int d = gcd_ext(b % a, a, x1, y1);
+    x = y1 - (b / a) * x1;
+    y = x1;
+    return d;
+}
+
+
 int bitceil(int x) {
     int p = 1;
     while(p < x) {
